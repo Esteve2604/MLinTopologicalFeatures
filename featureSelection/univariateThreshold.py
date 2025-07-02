@@ -3,7 +3,12 @@ import matplotlib.pyplot as plt
 from sklearn.feature_selection import  mutual_info_classif
 from kneed import KneeLocator
 # df = pd.read_csv("./data/featuresPDRed2.5EV8kHzStride2.csv")
-df = pd.read_csv("./data/featuresPDRed13EV41kHzStride2.csv")
+# df = pd.read_csv("./data/featuresPDRed13EV41kHzStride2.csv")
+# df = pd.read_csv("./data/afeaturesPDRed13EV41kHzStride2.csv") 
+df = pd.read_csv("./data/efeaturesPDRed13EV41kHzStride2.csv") 
+# df = pd.read_csv("./data/ifeaturesPDRed13EV41kHzStride2.csv") 
+# df = pd.read_csv("./data/ofeaturesPDRed13EV41kHzStride2.csv") 
+# df = pd.read_csv("./data/ufeaturesPDRed13EV41kHzStride2.csv") 
 df.drop("sampleName", axis=1, inplace=True)
 
 y = df["parkinson?"]
@@ -16,6 +21,7 @@ mi_sorted = mi_series.sort_values(ascending=False)
 knee = KneeLocator(
     range(len(mi_sorted)),
     mi_sorted,
+    
     curve='convex',
     direction='decreasing'
 )
@@ -41,4 +47,4 @@ df_selected = X_filtered.copy()
 df_selected['parkinson?'] = y  # optional, if you want to keep the label too
 
 # Step 4: Save to CSV
-df_selected.to_csv('selected_ThresholdfeaturesPDRed2.5EV8kHzStride2.csv', index=False)
+df_selected.to_csv('selected_ThresholdEfeaturesPDRed13EV44,1kHzStride2.csv', index=False)

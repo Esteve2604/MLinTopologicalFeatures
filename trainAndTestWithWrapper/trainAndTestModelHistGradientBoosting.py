@@ -17,8 +17,16 @@ N_JOBS = 2
 
 # df = pd.read_csv("./data/featuresPDRed2.5EV8kHzStride2.csv")
 # df = pd.read_csv("./data/featuresPDRed13EV41kHzStride2.csv")
-# df = pd.read_csv("./data/ufeaturesPDRed2.5EV8kHzStride2.csv")
-df = pd.read_csv("./data/ufeaturesPDRed13EV41kHzStride2.csv")
+
+# datasetPath = "./data/afeaturesPDRed13EV41kHzStride2.csv"
+# datasetPath = "./data/efeaturesPDRed13EV41kHzStride2.csv"
+# datasetPath = "./data/ifeaturesPDRed13EV41kHzStride2.csv"
+# datasetPath = "./data/ofeaturesPDRed13EV41kHzStride2.csv"
+datasetPath = "./data/ufeaturesPDRed13EV41kHzStride2.csv"
+
+df = pd.read_csv(datasetPath)
+print("El dataset utilizado es: " + datasetPath)
+
 df.drop("sampleName", axis=1, inplace=True)
 
 y = df["parkinson?"]

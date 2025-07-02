@@ -12,12 +12,23 @@ import matplotlib
 from imblearn.over_sampling import SVMSMOTE
 
 CV = 5
+N_JOBS = -1
 
 # df = pd.read_csv("./data/featuresPDRed2.5EV8kHzStride2.csv")
 # df = pd.read_csv("./data/featuresPDRed13EV41kHzStride2.csv")
-# df = pd.read_csv("./data/ufeaturesPDRed2.5EV8kHzStride2.csv")
-df = pd.read_csv("./data/ufeaturesPDRed13EV41kHzStride2.csv")
-df.drop("sampleName", axis=1, inplace=True)
+# df = pd.read_csv("./data/selected_ThresholdfeaturesPDRed13EV44,1kHzStride2.csv")
+# df = pd.read_csv("./data/univariate/selected_ThresholdAfeaturesPDRed13EV44,1kHzStride2.csv")
+# df = pd.read_csv("./data/univariate/selected_ThresholdEfeaturesPDRed13EV44,1kHzStride2.csv")
+# df = pd.read_csv("./data/univariate/selected_ThresholdIfeaturesPDRed13EV44,1kHzStride2.csv")
+# df = pd.read_csv("./data/univariate/selected_ThresholdOfeaturesPDRed13EV44,1kHzStride2.csv")
+df = pd.read_csv("./data/univariate/selected_ThresholdUfeaturesPDRed13EV44,1kHzStride2.csv")
+
+# df = pd.read_csv("./data/afeaturesPDRed13EV41kHzStride2.csv") 
+# df = pd.read_csv("./data/efeaturesPDRed13EV41kHzStride2.csv") 
+# df = pd.read_csv("./data/ifeaturesPDRed13EV41kHzStride2.csv") 
+# df = pd.read_csv("./data/ofeaturesPDRed13EV41kHzStride2.csv") 
+# df = pd.read_csv("./data/ufeaturesPDRed13EV41kHzStride2.csv") 
+# df.drop("sampleName", axis=1, inplace=True)
 
 y = df["parkinson?"]
 x = df.drop("parkinson?", axis=1)
@@ -92,7 +103,7 @@ grid_search = GridSearchCV(
     param_grid,
     scoring='accuracy', 
     cv=CV,
-    n_jobs=-1,
+    n_jobs=N_JOBS,
     verbose=1
 )
 pipeline = Pipeline(steps=[('preprocessor', preprocessor),
@@ -243,3 +254,23 @@ print("\nConfusion Matrix:\n", conf_matrix)
 # Confusion Matrix:
 #  [[9 1]
 #  [5 5]]
+
+# Filtrado Univariante
+# Best Parameters: {'class_weight': None, 'criterion': 'gini', 'max_depth': 10, 'max_features': 'sqrt', 'max_leaf_nodes': 20, 'min_impurity_decrease': 0.0, 'min_samples_leaf': 1, 'min_samples_split': 5, 'splitter': 'best'}
+# Best Score: 0.7875
+# Validation Metrics:
+
+# Classification Report:
+#                precision    recall  f1-score   support
+
+#            0       0.86      0.60      0.71        10
+#            1       0.69      0.90      0.78        10
+
+#     accuracy                           0.75        20
+#    macro avg       0.77      0.75      0.74        20
+# weighted avg       0.77      0.75      0.74        20
+
+
+# Confusion Matrix:
+#  [[6 4]
+#  [1 9]]

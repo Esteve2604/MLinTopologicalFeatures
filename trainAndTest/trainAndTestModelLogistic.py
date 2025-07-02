@@ -11,12 +11,23 @@ from sklearn.pipeline import Pipeline
 import matplotlib
 from imblearn.over_sampling import SVMSMOTE
 
+N_JOBS = -1
 CV = 5
 # df = pd.read_csv("./data/featuresPDRed2.5EV8kHzStride2.csv")
 # df = pd.read_csv("./data/featuresPDRed13EV41kHzStride2.csv")
-# df = pd.read_csv("./data/ufeaturesPDRed2.5EV8kHzStride2.csv")
-df = pd.read_csv("./data/ufeaturesPDRed13EV41kHzStride2.csv")
-df.drop("sampleName", axis=1, inplace=True)
+# df = pd.read_csv("./data/selected_ThresholdfeaturesPDRed13EV44,1kHzStride2.csv")
+# df = pd.read_csv("./data/univariate/selected_ThresholdAfeaturesPDRed13EV44,1kHzStride2.csv")
+# df = pd.read_csv("./data/univariate/selected_ThresholdEfeaturesPDRed13EV44,1kHzStride2.csv")
+# df = pd.read_csv("./data/univariate/selected_ThresholdIfeaturesPDRed13EV44,1kHzStride2.csv")
+# df = pd.read_csv("./data/univariate/selected_ThresholdOfeaturesPDRed13EV44,1kHzStride2.csv")
+df = pd.read_csv("./data/univariate/selected_ThresholdUfeaturesPDRed13EV44,1kHzStride2.csv")
+
+# df = pd.read_csv("./data/afeaturesPDRed13EV41kHzStride2.csv") 
+# df = pd.read_csv("./data/efeaturesPDRed13EV41kHzStride2.csv") 
+# df = pd.read_csv("./data/ifeaturesPDRed13EV41kHzStride2.csv") 
+# df = pd.read_csv("./data/ofeaturesPDRed13EV41kHzStride2.csv") 
+# df = pd.read_csv("./data/ufeaturesPDRed13EV41kHzStride2.csv") 
+# df.drop("sampleName", axis=1, inplace=True)
 
 y = df["parkinson?"]
 x = df.drop("parkinson?", axis=1)
@@ -91,7 +102,7 @@ grid_search = GridSearchCV(
     param_grid,
     scoring='accuracy', 
     cv=5,
-    n_jobs=-1,
+    n_jobs=N_JOBS,
     verbose=1
 )
 pipeline = Pipeline(steps=[('preprocessor', preprocessor),

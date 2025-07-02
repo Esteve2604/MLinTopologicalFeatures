@@ -17,8 +17,17 @@ N_FEATURES_TO_SELECT = 15
 CV = 2
 # df = pd.read_csv("./data/featuresPDRed2.5EV8kHzStride2.csv")
 # df = pd.read_csv("./data/featuresPDRed13EV41kHzStride2.csv")
-# df = pd.read_csv("./data/ufeaturesPDRed2.5EV8kHzStride2.csv")
-df = pd.read_csv("./data/ufeaturesPDRed13EV41kHzStride2.csv")
+
+# # datasetPath = "./data/afeaturesPDRed13EV41kHzStride2.csv"
+# # datasetPath = "./data/efeaturesPDRed13EV41kHzStride2.csv"
+# datasetPath = "./data/ifeaturesPDRed13EV41kHzStride2.csv"
+# # datasetPath = "./data/ofeaturesPDRed13EV41kHzStride2.csv"
+datasetPath = "./data/ufeaturesPDRed13EV41kHzStride2.csv"
+
+df = pd.read_csv(datasetPath)
+print("El dataset utilizado es: " + datasetPath)
+
+# df = pd.read_csv("./data/ufeaturesPDRed13EV41kHzStride2.csv") df = pd.read_csv("./data/selected_ThresholdfeaturesPDRed13EV44,1kHzStride2.csv")
 df.drop("sampleName", axis=1, inplace=True)
 
 y = df["parkinson?"]

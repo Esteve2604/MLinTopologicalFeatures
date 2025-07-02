@@ -4,7 +4,7 @@ from gtda.diagrams import Amplitude, PersistenceEntropy, NumberOfPoints, Complex
 import pandas as pd
 n_jobs = -1
 directory = "./data/pDRed13EV41kHzStride2"
-savingDirectory  = "./data/ofeaturesPDRed13EV41kHzStride2.csv"
+savingDirectory  = "./data/pdRed13EV41kHzStride2"
 maxDistance = 4000
 homology_dimensions = [0, 1, 2]
 featuresWithBettiPoint = {
@@ -2176,76 +2176,33 @@ def tranformDataForGiotto(data, infinitePoints):
 
 for labelDirectoryName in os.listdir(directory):
     print(f"Starting with directory {labelDirectoryName}")
-    parkinson = 1
-    if(labelDirectoryName == 'Control'):
-        parkinson = 0
+    
     directoryWithLabel = directory + "/" + labelDirectoryName
     vocalDirectories =  os.listdir(directoryWithLabel)
-    fullVocalDirectories = [directoryWithLabel + "/O"]
-    allFiles = [os.listdir(fullDirectory) for fullDirectory in fullVocalDirectories]
-    for fileIndex in range(0,len(allFiles[0])):
-        rowToInsert = []
-        error = False
-        sampleName = allFiles[0][fileIndex].split("Persistence")[0]
-        rowToInsert.append(sampleName)
-        rowToInsert.append(parkinson)
-        for directoryIndex in range(0,len(fullVocalDirectories)):
-            f = os.path.join(fullVocalDirectories[directoryIndex], allFiles[directoryIndex][fileIndex])
-            persistence_diagrams = np.loadtxt(f,delimiter=",", dtype=np.float64, skiprows=1)
-            infinitePoints = [0,0,0]
-            giottoPersistenceDiagrams = tranformDataForGiotto(persistence_diagrams, infinitePoints)
-            if len(giottoPersistenceDiagrams) != 3:
-                error = True
-                break
-            # The infinitePoints are inserted
-            # rowToInsert.append(infinitePoints[0]) #Dimension 0
-            # rowToInsert.append(infinitePoints[1]) #Dimension 1
-            # rowToInsert.append(infinitePoints[2]) #Dimension 2
-            
-            # Metrics: 'bottleneck' | 'wasserstein' | 'betti' | 'landscape' | 'silhouette' | 'heat' | 'persistence_image'
-            landscapeAmplitude = Amplitude(metric='landscape')
-            # Default is 2 floats and 100 bins
-            # Devuelve la suma de las distancias entre cada punto, no la distancia entre ellos 
-            bettiAmplitude = Amplitude(metric='betti', metric_params={'p': 2,'n_bins':100 }) 
-            persistenceEntropy = PersistenceEntropy()
-            complexPolynomial = ComplexPolynomial(n_coefficients=5, n_jobs=1)
-            persistenceEntropy0 = persistenceEntropy.fit_transform([giottoPersistenceDiagrams[0]])[0]
-            rowToInsert.append(persistenceEntropy0[0])
-            persistenceEntropy1 = persistenceEntropy.fit_transform([giottoPersistenceDiagrams[1]])[0]
-            rowToInsert.append(persistenceEntropy1[0])
-            persistenceEntropy2 = persistenceEntropy.fit_transform([giottoPersistenceDiagrams[2]])[0]
-            rowToInsert.append(persistenceEntropy2[0])
-            landscapeAmplitudeDim0 = landscapeAmplitude.fit_transform([giottoPersistenceDiagrams[0]])[0]
-            rowToInsert.append(landscapeAmplitudeDim0[0])
-            landscapeAmplitudeDim1 = landscapeAmplitude.fit_transform([giottoPersistenceDiagrams[1]])[0]
-            rowToInsert.append(landscapeAmplitudeDim1[0])
-            landscapeAmplitudeDim2 = landscapeAmplitude.fit_transform([giottoPersistenceDiagrams[2]])[0]
-            rowToInsert.append(landscapeAmplitudeDim2[0])
-            numberOfPoints = NumberOfPoints(n_jobs=-1)
-            numberOfPointsDim0 = numberOfPoints.fit_transform([giottoPersistenceDiagrams[0]])[0]
-            rowToInsert.append(numberOfPointsDim0[0])
-            numberOfPointsDim1 = numberOfPoints.fit_transform([giottoPersistenceDiagrams[1]])[0]
-            rowToInsert.append(numberOfPointsDim1[0])
-            numberOfPointsDim2 = numberOfPoints.fit_transform([giottoPersistenceDiagrams[2]])[0]
-            rowToInsert.append(numberOfPointsDim2[0])
-            bettiAmplitude0 = bettiAmplitude.fit_transform([giottoPersistenceDiagrams[0]])[0]
-            rowToInsert.append(bettiAmplitude0[0])
-            bettiAmplitude1 = bettiAmplitude.fit_transform([giottoPersistenceDiagrams[1]])[0]
-            rowToInsert.append(bettiAmplitude1[0])
-            bettiAmplitude2 = bettiAmplitude.fit_transform([giottoPersistenceDiagrams[2]])[0]
-            rowToInsert.append(bettiAmplitude2[0])
-            
-            complexPolynomial0 = complexPolynomial.fit_transform([giottoPersistenceDiagrams[0]])[0]
-            for coef in complexPolynomial0:
-                rowToInsert.append(coef)
-            complexPolynomial1 = complexPolynomial.fit_transform([giottoPersistenceDiagrams[1]])[0]
-            for coef in complexPolynomial1:
-                rowToInsert.append(coef)
-            complexPolynomial2 = complexPolynomial.fit_transform([giottoPersistenceDiagrams[2]])[0]
-            for coef in complexPolynomial2:
-                rowToInsert.append(coef)
-        if(not error):
-            featuresDf.loc[len(featuresDf)] = rowToInsert
-featuresDf.to_csv(savingDirectory, index=False)
+    for vocalDirectoryName in os.listdir(directoryWithLabel):
+        fullVocalDirectories = [directoryWithLabel + "/" + vocalDirectoryName]
+        allFiles = [os.listdir(fullDirectory) for fullDirectory in fullVocalDirectories]
+        for fileIndex in range(0,len(allFiles[0])):
+            rowToInsert = []
+            error = False
+            sampleName = allFiles[0][fileIndex].split("Persistence")[0]
+            for directoryIndex in range(0,len(fullVocalDirectories)):
+                f = os.path.join(fullVocalDirectories[directoryIndex], allFiles[directoryIndex][fileIndex])
+                persistence_diagrams = np.loadtxt(f,delimiter=",", dtype=np.float64, skiprows=1)
+                infinitePoints = [0,0,0]
+                giottoPersistenceDiagrams = tranformDataForGiotto(persistence_diagrams, infinitePoints)
+                  # Create the directory if it doesn't exist
+                savingDirectory = savingDirectory
+                os.makedirs(savingDirectory, exist_ok=True)
+                savingDirectory = savingDirectory + "/" + labelDirectoryName
+                # Create the directory if it doesn't exist
+                os.makedirs(savingDirectory, exist_ok=True)
+                savingDirectory = savingDirectory + "/" + vocalDirectoryName
+                # Create the directory if it doesn't exist
+                os.makedirs(savingDirectory, exist_ok=True)
+                # Construct the full path for the file
+                savingFilename = savingDirectory + "/"+  sampleName +"PersistenceDiagram.csv"
+                stacked = np.stack(giottoPersistenceDiagrams)
+                np.savetxt(savingFilename, stacked, delimiter=',', fmt='%.3f')
 
             

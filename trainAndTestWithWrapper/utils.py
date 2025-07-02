@@ -62,6 +62,7 @@ def selectFeaturesSFSAndTrainModel(X_train, y_train, X_test, y_test, preprocesso
     pipeline.fit(X_train, y_train)
 
     selected_mask = pipeline.named_steps['feature_selection'].support_
+    
     feature_names = X_train.columns
     selected_features = feature_names[selected_mask]
     features = list(selected_features)

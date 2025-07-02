@@ -23,8 +23,8 @@ CV = 5
 N_JOBS = -1
 # df = pd.read_csv("./data/featuresPDRed2.5EV8kHzStride2.csv")
 # df = pd.read_csv("./data/featuresPDRed13EV41kHzStride2.csv")
-# df = pd.read_csv("./data/ufeaturesPDRed2.5EV8kHzStride2.csv")
-df = pd.read_csv("./data/ufeaturesPDRed13EV41kHzStride2.csv")
+
+# df = pd.read_csv("./data/ufeaturesPDRed13EV41kHzStride2.csv") df = pd.read_csv("./data/selected_ThresholdfeaturesPDRed13EV44,1kHzStride2.csv")
 df.drop("sampleName", axis=1, inplace=True)
 
 y = df["parkinson?"]
